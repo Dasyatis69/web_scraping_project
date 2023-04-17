@@ -10,21 +10,22 @@ response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")
 
 # Recherche des éléments de la liste des hôtels
-hotels = soup.findall("div", class="sr_property_block")
+hotels = soup.find_all("div", class_="sr_property_block")
 
 # Création d'un dictionnaire pour stocker les informations de chaque hôtel
-dicthotels = {}
+dict_hotels = {}
 
 # Parcours de la liste des hôtels et extraction des informations nécessaires
 for hotel in hotels:
-    name = hotel.find("span", class="sr-hotelname").get_text().strip()
-    starrating = hotel.find("span", class="sr-hoteltitle-badges").find("span", class_="invisible_spoken").gettext().strip()
-    address = hotel.find("span", class="sr_card_address_line").get_text().strip()
+    name = hotel.find("span", class_="sr-hotelname").get_text().strip()
+    star_rating = hotel.find("span", class_="sr-hoteltitle-badges").find("span", class_="invisible_spoken").get_text().strip()
+    address = hotel.find("span", class_="sr_card_address_line").get_text().strip()
     dict_hotels[name] = {"StarRating": star_rating, "Address": address}
 
 # Enregistrement des données dans un fichier JSON
 with open("Hotel_list.json", "w") as write_file:
     json.dump(dict_hotels, write_file, indent=4)
+    
     
 f=open("Hotel_list.json")
 
